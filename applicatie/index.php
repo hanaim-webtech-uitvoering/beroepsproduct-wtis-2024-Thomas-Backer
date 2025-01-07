@@ -7,7 +7,7 @@
     <title>Index</title>
 </head>
 <body>
-    <h1>Test</h1>
+    <h1>Hoi</h1>
     <?php echo('Hallo WT\'er, de webserver is online en PHP werkt.'); ?>
     <br>
     <br>
