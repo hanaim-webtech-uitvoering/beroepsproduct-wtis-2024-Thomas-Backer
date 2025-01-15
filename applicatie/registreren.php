@@ -8,6 +8,13 @@ $db = maakVerbinding();
 $fouten = [];
 $melding = '';
 
+// Controleer of de gebruiker succesvol is geregistreerd en redirect naar de inlogpagina
+if (isset($_SESSION['geregistreerd']) && $_SESSION['geregistreerd'] === true) {
+    unset($_SESSION['geregistreerd']);
+    header("Location: inloggen.php");
+    exit();
+}
+
 if (isset($_POST['registreren'])) {
     // $inputData[] = SanitizeInput()
     // $fouten[] = ValidateInput($inputData)
@@ -93,8 +100,9 @@ if (isset($_POST['registreren'])) {
             ]);
 
             if ($success) {
+                $_SESSION['geregistreerd'] = true;
                 $melding = 'Registratie succesvol!';
-                header("Location: homeMenu.php");
+                header("Location: Inloggen.php");
                 exit();
             } else {
                 $melding = 'Er is een fout opgetreden bij het registreren.';
@@ -148,9 +156,11 @@ if (isset($_POST['registreren'])) {
 
 <footer>
     <div>
-        <br>
-        <br>
+        <ul>
+            <li>
                 <a href="homeMenu.php">Home</a>
+            </li>
+        </ul>
     </div>
 </footer>
 
