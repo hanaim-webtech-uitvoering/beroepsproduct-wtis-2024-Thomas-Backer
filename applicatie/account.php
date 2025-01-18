@@ -19,8 +19,19 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body>
     <h2>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
-    <p>Je bent ingelogd.</p>
-    <a href="logout.php">Uitloggen</a>
-    <a href="HomeMenu.php">Home</a>
+    <p>Mijn bestellingen:</p>
+
+<footer>
+    <div>
+        <ul>
+            <li>
+                <a href="logout.php">Uitloggen</a>
+            </li>
+            <li>
+                <a href="HomeMenu.php">Home</a>
+            </li>
+        </ul>
+    </div>
+</footer>
 </body>
 </html>

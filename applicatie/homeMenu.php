@@ -36,12 +36,35 @@ $melding = '';
 <body>
     <h1>Pizzeria Sole Machina</h1>
     <?php 
-    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-        echo 'Je bent ingelogd!';
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+if ($username) {
+    $_SESSION['loggedin'] = true;
+}
+
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    echo '<p>Welkom, ' . htmlspecialchars($username) . '! Bij pizzeria sole machina waar je van alle heerlijke gerechten kunt genieten!</p>';
+} else {
+    echo '<p>Welkom bij pizzeria sole machina waar je van alle heerlijke gerechten kunt genieten!</p>';
+}
+    ?>
+
+    <p> Producten:</p>
+    <?php
+    $query = "SELECT name, price, type_id FROM [dbo].[Product]";
+    $result = $db->query($query);
+    echo $result->rowCount();
+
+    if ($result->rowCount() > 0) {
+        echo '<ul>';
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            echo '<li>' . $row['name'] . ' - €' . $row['price'] . ' ' . $row['type_id'] . '</li>';
+        }
+        echo '</ul>';
     } else {
-        echo 'Welkom bij pizzeria sole machina waar van alle heerlijke gerechten kunt genieten!';
+        echo '<p>Geen producten gevonden.</p>';
     }
     ?>
+
 </body>
 <footer>   
     <div>
