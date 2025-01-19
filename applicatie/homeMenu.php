@@ -7,6 +7,12 @@ require_once 'sanitize.php';
 $db = maakVerbinding();
 $melding = '';
 
+//Haal de bestellingen uit de database
+$query = $db->prepare("SELECT name, price, type_id FROM [dbo].[Product]");
+$query->execute();
+$producten = $query->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -33,46 +39,36 @@ $melding = '';
     </div>
 
 </head>
-<body>
-    <h1>Pizzeria Sole Machina</h1>
-    <?php 
-$username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
-if ($username) {
-    $_SESSION['loggedin'] = true;
-}
-
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    echo '<p>Welkom, ' . htmlspecialchars($username) . '! Bij pizzeria sole machina waar je van alle heerlijke gerechten kunt genieten!</p>';
-} else {
-    echo '<p>Welkom bij pizzeria sole machina waar je van alle heerlijke gerechten kunt genieten!</p>';
-}
-    ?>
-
-    <p> Producten:</p>
-    <?php
-    $query = "SELECT name, price, type_id FROM [dbo].[Product]";
-    $result = $db->query($query);
-    echo $result->rowCount();
-
-    if ($result->rowCount() > 0) {
-        echo '<ul>';
-        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            echo '<li>' . $row['name'] . ' - €' . $row['price'] . ' ' . $row['type_id'] . '</li>';
-        }
-        echo '</ul>';
-    } else {
-        echo '<p>Geen producten gevonden.</p>';
+    <body>
+        <h1>Pizzeria Sole Machina</h1>
+        <?php 
+    $username = isset($_SESSION['username']) ? $_SESSION['username'] : null;
+    if ($username) {
+        $_SESSION['loggedin'] = true;
     }
-    ?>
 
-</body>
-<footer>   
-    <div>
-        <ul>
+    if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+        echo '<p>Welkom, ' . htmlspecialchars($username) . '! Bij pizzeria sole machina waar je van alle heerlijke gerechten kunt genieten!</p>';
+    } else {
+        echo '<p>Welkom bij pizzeria sole machina waar je van alle heerlijke gerechten kunt genieten!</p>';
+    }
+        ?>
+
+    <p> Onze producten:</p>
+    <ul>
+        <?php foreach ($producten as $product) : ?>
             <li>
-                <a href="privacyverklaring.html">Privacyverklaring</a>
+            <a href="detailoverzichtBestelling.php?id=<?php echo $product['type_id']; ?>">
+            <?php echo htmlspecialchars($product['name']); ?> - €<?php echo htmlspecialchars($product['price']); ?>
+                </a>
             </li>
-        </ul>
-    </div>
-</footer>
+        <?php endforeach; ?>
+    </ul>
+    </body>
+
+    <footer>   
+        <div>
+            <a href="privacyverklaring.html">Privacyverklaring</a>
+        </div>
+    </footer>
 </html>

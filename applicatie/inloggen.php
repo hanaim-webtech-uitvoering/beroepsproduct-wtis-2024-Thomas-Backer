@@ -65,11 +65,7 @@ login_user();
 </body>
 <footer> 
   <div>
-    <ul>
-      <li>
-        <a href="homeMenu.php">Home</a>
-      </li>
-    </ul>
+      <a href="homeMenu.php">Home</a>
   </div>
 </footer>
 </html>
