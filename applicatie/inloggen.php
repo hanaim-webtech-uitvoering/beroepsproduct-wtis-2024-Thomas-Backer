@@ -38,6 +38,13 @@ function login_user() {
 }
 
 login_user();
+
+//Als de user al is ingelogd stuur hem dan door naar de account pagina
+if (isset($_SESSION['username'])) {
+  header('Location: account.php');
+  exit();
+}
+
 ?>
 
 <!DOCTYPE html>

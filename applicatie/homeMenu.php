@@ -35,6 +35,9 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
             <li>
                 <a href="account.php">Account</a>
             </li>
+            <li>
+                <a href="winkelmandje.php">Winkelmandje</a>
+            </li>
         </ul>
     </div>
 
@@ -58,9 +61,13 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
     <ul>
         <?php foreach ($producten as $product) : ?>
             <li>
-            <a href="detailoverzichtBestelling.php?id=<?php echo $product['type_id']; ?>">
             <?php echo htmlspecialchars($product['name']); ?> - €<?php echo htmlspecialchars($product['price']); ?>
-                </a>
+            <form action="winkelmandje.php" method="post" style="display:inline;">
+            <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['type_id']); ?>">
+            <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['name']); ?>">
+            <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($product['price']); ?>">
+            <button type="submit">Toevoegen aan winkelmandje</button>
+            </form>
             </li>
         <?php endforeach; ?>
     </ul>

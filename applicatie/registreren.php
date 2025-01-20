@@ -116,6 +116,13 @@ if (isset($_POST['registreren'])) {
         $melding .= "</ul>";
     }
 }
+
+//Als de user al is ingelogd stuur hem dan door naar de account pagina
+if (isset($_SESSION['username'])) {
+    header('Location: account.php');
+    exit();
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -156,6 +163,7 @@ if (isset($_POST['registreren'])) {
 
 <footer>
     <div>
+        <p>Heb je al een account?</p><a href="inloggen.php">Log dan in!</a>
         <a href="homeMenu.php">Home</a>
     </div>
 </footer>
