@@ -1,6 +1,8 @@
 <?php
 
 require_once '../Applicatie-laag/accountAPP.php';
+require_once '../Applicatie-laag/logout.php';
+require_once '../Applicatie-laag/verwijderProduct.php';
 
 ?>
 
@@ -40,7 +42,7 @@ require_once '../Applicatie-laag/accountAPP.php';
 <footer>
     <div>
         <a href="HomeMenu.php">Home</a>
-        <a href="logout.php">Uitloggen</a>         
+        <a href="../Applicatie-laag/logout.php">Uitloggen</a>         
     </div>
 </footer>
 </body>

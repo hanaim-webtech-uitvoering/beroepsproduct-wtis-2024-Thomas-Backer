@@ -1,6 +1,6 @@
 <?php
 
-require_once '../Applicatie-laag/overzichtBestellingen.php';
+require_once '../Applicatie-laag/overzichtBestellingenAPP.php';
 
 ?>
 

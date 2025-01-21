@@ -66,7 +66,7 @@ require_once '../Applicatie-laag/homeMenuAPP.php';
 
     <footer>   
         <div>
-            <a href="privacyverklaring.html">Privacyverklaring</a>
+            <a href="privacyverklaring.php">Privacyverklaring</a>
         </div>
     </footer>
     </body>

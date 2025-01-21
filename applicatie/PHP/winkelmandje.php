@@ -34,7 +34,7 @@ require_once '../Applicatie-laag/winkelmandjeAPP.php';
         <?php foreach ($producten as $index => $product) : ?>
             <li>
                 <?php echo htmlspecialchars($product['name']); ?> - €<?php echo htmlspecialchars($product['price']); ?>
-                <form method="post" action="verwijderProduct.php" style="display:inline;">
+                <form method="post" action="../Applicatie-laag/verwijderProduct.php" style="display:inline;">
                     <input type="hidden" name="product_index" value="<?php echo $index; ?>">
                     <button type="submit">Verwijder</button>
                 </form>

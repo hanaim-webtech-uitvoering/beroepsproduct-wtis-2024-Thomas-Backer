@@ -16,9 +16,9 @@ require_once '../Applicatie-laag/inloggenAPP.php';
     <h2>Login</h2>
     <div style="width: 50vw; margin:10px">
       <form method="post" action="">
-        <label for="username">Gebruikersnaam</label>
+        <label for="username">Username</label>
         <input type="text" id="username" name="username" placeholder="vul hier je gebruikersnaam in" required>
-        <label for="password">Wachtwoord</label>
+        <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="vul hier je wachtwoord in" required>
         <input type="submit" name="user_login" id="user_login" value="Inloggen">
       </form>
@@ -29,8 +29,8 @@ require_once '../Applicatie-laag/inloggenAPP.php';
 </body>
 <footer> 
   <div>
-      <a href="homeMenu.php">Home</a>
       <a href="registreren.php">Registreren</a>
+      <a href="homeMenu.php">Home</a>
   </div>
 </footer>
 </html>

@@ -1,6 +1,6 @@
 <?php
 
-require_once '../Applicatie-laag/registrereAPP.php';
+require_once '../Applicatie-laag/registrerenAPP.php';
 
 ?>
 
@@ -20,8 +20,8 @@ require_once '../Applicatie-laag/registrereAPP.php';
         <input type="text" id="username" name="username" required><br><br>
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" required><br><br>
-        <label for="herhaalPassword">Herhaal Password:</label>
-        <input type="password" id="herhaalPassword" name="herhaalPassword" required><br><br>
+        <label for="repeatPassword">Repeat Password:</label>
+        <input type="password" id="repeatPassword" name="repeatPassword" required><br><br>
         <label for="first_name">First name:</label>
         <input type="text" id="first_name" name="first_name" required><br><br>
         <label for="last_name">Last name:</label>
@@ -30,8 +30,8 @@ require_once '../Applicatie-laag/registrereAPP.php';
         <input type="text" id="address" name="address"><br><br>
         <label for="role">Role:</label>
         <select id="role" name="role" required>
-        <option value="personeel">Personeel</option>
-        <option value="klant">Klant</option>
+        <option value="personnel">Personnel</option>
+        <option value="client">Client</option>
         </select><br><br>
         <input type="submit" name="registreren" value="Registreren">
     </form>
@@ -42,7 +42,7 @@ require_once '../Applicatie-laag/registrereAPP.php';
 
 <footer>
     <div>
-        <p>Heb je al een account?</p><a href="inloggen.php">Log dan in!</a>
+        <a href="inloggen.php">Inloggen</a>
         <a href="homeMenu.php">Home</a>
     </div>
 </footer>
