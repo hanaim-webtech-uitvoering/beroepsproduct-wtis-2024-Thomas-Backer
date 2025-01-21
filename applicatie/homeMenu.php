@@ -38,6 +38,11 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
             <li>
                 <a href="winkelmandje.php">Winkelmandje</a>
             </li>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'personeel') : ?>
+                        <li>
+                            <a href="overzichtBestellingen.php">Bestellingen</a>
+                        </li>
+            <?php endif; ?>
         </ul>
     </div>
 
@@ -71,11 +76,11 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
             </li>
         <?php endforeach; ?>
     </ul>
-    </body>
 
     <footer>   
         <div>
             <a href="privacyverklaring.html">Privacyverklaring</a>
         </div>
     </footer>
+    </body>
 </html>

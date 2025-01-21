@@ -16,65 +16,6 @@ $query = $db->prepare("SELECT name, price, type_id FROM [dbo].[Product]");
 $query->execute();
 $producten = $query->fetchAll(PDO::FETCH_ASSOC);
 
-// //Haal de name, price en type_id op uit de homeMenu.php pagina en zorg dat alleen de producten die je hebt besteld in het winkelmandje komen te staan
-// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
-//     $product_id = sanitize($_POST['product_id']);
-//     $query = $db->prepare("SELECT name, price, type_id FROM [dbo].[Product] WHERE type_id = :type_id");
-//     $query->bindParam(':type_id', $product_id, PDO::PARAM_INT);
-//     $query->execute();
-//     $product = $query->fetch(PDO::FETCH_ASSOC);
-
-//     if ($product) {
-//         echo '<ul>';
-//         echo '<li><h1>' . htmlspecialchars($product['name']) . '</h1>';
-//         echo '<p>Prijs: €' . htmlspecialchars($product['price']) . '</p></li>';
-//         echo '</ul>';
-//     } else {
-//         echo '<p>Product niet gevonden.</p>';
-//     }
-// } else {
-//     echo '<p>Ongeldig product-ID.</p>';
-// }
-
-//Hier
-//             //Haal de name, price en type_id op uit de homeMenu.php pagina en zorg dat alleen de producten die je hebt besteld in het winkelmandje komen te staan
-// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
-//     $product_id = sanitize($_POST['product_id']);
-//     $query = $db->prepare("SELECT name, price, type_id FROM [dbo].[Product] WHERE type_id = :type_id");
-//     $query->bindParam(':type_id', $product_id, PDO::PARAM_INT);
-//     $query->execute();
-//     $product = $query->fetch(PDO::FETCH_ASSOC);
-
-//     if ($product) {
-//         echo '<ul>';
-//         echo '<li><h1>' . htmlspecialchars($product['name']) . '</h1>';
-//         echo '<h2>Prijs: €' . htmlspecialchars($product['price']) . '</h2>';
-//         echo '<h2>Type: ' . htmlspecialchars($product['type_id']) . '</h2></li>';
-//         echo '</ul>';
-//     } else {
-//         echo '<p>Product niet gevonden.</p>';
-//     }
-// } else {
-//     echo '<p>Ongeldig product-ID.</p>';
-// }
-
-// if (isset($product_id)) {
-//     echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product_id) . '">';
-//     echo '<label for="quantity">Aantal:</label>';
-//     echo '<input type="number" id="quantity" name="quantity" min="1" max="9" value="1">';
-//     echo '</form>';
-// }
-
-// if (isset($_SESSION['user_id'])) {
-//     echo '<form method="POST" action="bestellingoverzichtPersoneel.php">';
-//     echo '<input type="hidden" name="product_id" value="' . htmlspecialchars($product_id) . '">';
-//     echo '<input type="hidden" name="user_id" value="' . htmlspecialchars($_SESSION['user_id']) . '">';
-//     echo '<button type="submit">Bestel</button>';
-//     echo '</form>';
-// } else {
-//     echo '<p>Je moet ingelogd zijn om een bestelling te plaatsen. <a href="inloggen.php">Log in</a></p>';
-// }
-
 // Verwerk de POST-aanvraag om een product toe te voegen aan het winkelmandje
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     $product_id = sanitize($_POST['product_id']);
@@ -130,6 +71,11 @@ $producten = $_SESSION['winkelmandje'];
             </li>
         <?php endforeach; ?>
     </ul>
+
+    <form method="post" action="account.php">
+        <button type="submit">Bestel</button>
+        </form>
+
 </body>
 
 <footer>

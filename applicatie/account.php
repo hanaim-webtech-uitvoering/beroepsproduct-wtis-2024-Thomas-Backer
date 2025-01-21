@@ -25,7 +25,6 @@ if ($user) {
     $_SESSION['role'] = $user['role'];
 }
 
-//Haal de bestellingen van de gebruiker op uit de database
 
 ?>
 
@@ -38,17 +37,18 @@ if ($user) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-    <h2>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
+<h2>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
 
-    <p>Mijn gegevens:</p>
-    <ul>
-        <li>Voornaam: <?php echo htmlspecialchars($_SESSION['first_name']); ?></li>
-        <li>Achternaam: <?php echo htmlspecialchars($_SESSION['last_name']); ?></li>
-        <li>Adres: <?php echo htmlspecialchars($_SESSION['address']); ?></li>
-        <li>Rol: <?php echo htmlspecialchars($_SESSION['role']); ?></li>
-    </ul>
+<p>Mijn gegevens:</p>
+<ul>
+    <li>Voornaam: <?php echo htmlspecialchars($_SESSION['first_name']); ?></li>
+    <li>Achternaam: <?php echo htmlspecialchars($_SESSION['last_name']); ?></li>
+    <li>Adres: <?php echo htmlspecialchars($_SESSION['address']); ?></li>
+    <li>Rol: <?php echo htmlspecialchars($_SESSION['role']); ?></li>
+</ul>
 
-    <p>Mijn bestellingen:</p>
+<h2>Mijn Bestellingen:</h2>
+
 
 <footer>
     <div>
