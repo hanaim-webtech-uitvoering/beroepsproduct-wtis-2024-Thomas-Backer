@@ -6,14 +6,6 @@ require_once 'sanitize.php';
 
 $db = maakVerbinding();
 
-// Controleer of de gebruiker een personeel is. Zo niet dan wordt de gebruiker geredirect naar de homepagina
-
-
-// Zet de gegevens van de table [dbo].[Pizza_Order_Product] hierin
-$query = $db->prepare("SELECT * FROM [dbo].[Pizza_Order_Product]");
-$query->execute();
-$bestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
-
 // Haal de producten op uit de POST-aanvraag en sla ze op in de sessie
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['producten'])) {
     $_SESSION['bestellingen'] = $_POST['producten'];
@@ -27,6 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling']
     unset($_SESSION['bestellingen']);
     $bestellingen = [];
 }
+
+// Haal het adres van de gebruiker op uit de tabel User
+$username = $_SESSION['username'];
+$query = $db->prepare("SELECT address FROM [dbo].[User] WHERE username = :username");
+$query->bindParam(':username', $username);
+$query->execute();
+$user = $query->fetch(PDO::FETCH_ASSOC);
+
+$address = $user ? $user['address'] : '';
+
+//Pak alle gegevens van de tabel Pizza_Order 
+$query = $db->prepare("SELECT status FROM [dbo].[Pizza_Order] WHERE order_id = 1");
+$query->execute();
+$bestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -42,11 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling']
 <h1>Overzicht Bestellingen</h1>
 <ul>
     <?php foreach ($bestellingen as $index => $product) : ?>
+        
+        <p>Besteld door: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
+        <p>Status: <?php echo htmlspecialchars($product['status']); ?></p>
+        <p>Adres: <?php echo htmlspecialchars($address); ?></p>
+
         <li>
-            <?php echo htmlspecialchars($product['name']); ?> - €<?php echo htmlspecialchars($product['price']); ?>
+            <?php
+            // Haal de productgegevens op uit de tabel Product
+            $productQuery = $db->prepare("SELECT name, price FROM [dbo].[Product]");
+            $productQuery->execute();
+            $productDetails = $productQuery->fetch(PDO::FETCH_ASSOC);
+            ?>
+
+            <?php echo htmlspecialchars($productDetails['name']); ?> - €<?php echo htmlspecialchars($productDetails['price']); ?>
             <form method="post" action="overzichtBestellingen.php" style="display:inline;">
-                <input type="hidden" name="verwijder_bestelling" value="1">
-                <button type="submit">Verwijder Bestelling</button>
+                <?php if ($_SESSION['role'] === 'personeel') : ?>
+                    <input type="hidden" name="verwijder_bestelling" value="1">
+                    <button type="submit">Verwijder Bestelling</button>
+                <?php endif; ?>
             </form>
         </li>
     <?php endforeach; ?>

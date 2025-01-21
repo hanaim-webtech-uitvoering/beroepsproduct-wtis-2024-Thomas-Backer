@@ -60,7 +60,7 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
     }
         ?>
 
-    <p> Onze producten:</p>
+    <p> Ons menu:</p>
     <ul>
         <?php foreach ($producten as $product) : ?>
             <li>

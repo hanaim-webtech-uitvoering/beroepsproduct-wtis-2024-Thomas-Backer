@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_index'])) {
 
     $product_index = (int)$_POST['product_index'];
@@ -16,8 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_index'])) {
     }
 
 }
-
-
 
 header('Location: Winkelmandje.php');
 

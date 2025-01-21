@@ -50,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling']
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-<h2>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h2>
+<h1>Welkom, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
 
-<p>Mijn gegevens:</p>
+<h2>Mijn gegevens:</h2>
 <ul>
     <li>Voornaam: <?php echo htmlspecialchars($_SESSION['first_name']); ?></li>
     <li>Achternaam: <?php echo htmlspecialchars($_SESSION['last_name']); ?></li>

@@ -73,6 +73,7 @@ if (isset($_SESSION['username'])) {
 <footer> 
   <div>
       <a href="homeMenu.php">Home</a>
+      <a href="registreren.php">Registreren</a>
   </div>
 </footer>
 </html>
