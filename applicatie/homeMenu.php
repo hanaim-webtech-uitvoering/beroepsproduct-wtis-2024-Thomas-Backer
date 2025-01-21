@@ -38,11 +38,9 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
             <li>
                 <a href="winkelmandje.php">Winkelmandje</a>
             </li>
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'personeel') : ?>
-                        <li>
-                            <a href="overzichtBestellingen.php">Bestellingen</a>
-                        </li>
-            <?php endif; ?>
+            <li>
+                <a href="overzichtBestellingen.php">Bestellingen</a>
+            </li>
         </ul>
     </div>
 

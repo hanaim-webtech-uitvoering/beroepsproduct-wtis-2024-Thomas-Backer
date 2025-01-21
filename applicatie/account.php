@@ -25,6 +25,19 @@ if ($user) {
     $_SESSION['role'] = $user['role'];
 }
 
+// Haal de producten op uit de POST-aanvraag en sla ze op in de sessie
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['producten'])) {
+    $_SESSION['bestellingen'] = $_POST['producten'];
+}
+
+// Haal de bestellingen op uit de sessie
+$bestellingen = isset($_SESSION['bestellingen']) ? $_SESSION['bestellingen'] : [];
+
+// Verwijder de bestelling als de verwijderknop is ingedrukt
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling'])) {
+    unset($_SESSION['bestellingen']);
+    $bestellingen = [];
+}
 
 ?>
 
@@ -48,6 +61,17 @@ if ($user) {
 </ul>
 
 <h2>Mijn Bestellingen:</h2>
+<ul>
+    <?php foreach ($bestellingen as $index => $product) : ?>
+        <li>
+            <?php echo htmlspecialchars($product['name']); ?> - €<?php echo htmlspecialchars($product['price']); ?>
+            <form method="post" action="account.php" style="display:inline;">
+                <input type="hidden" name="verwijder_bestelling" value="1">
+                <button type="submit">Verwijder Bestelling</button>
+            </form>
+        </li>
+    <?php endforeach; ?>
+</ul>
 
 
 <footer>
