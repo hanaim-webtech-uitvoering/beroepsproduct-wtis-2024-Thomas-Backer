@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_index'])) {
 
 }
 
-header('Location: ../PHP/winkelmandje.php');
+header('Location: winkelmandje.php');
 
 exit;
 ?>
