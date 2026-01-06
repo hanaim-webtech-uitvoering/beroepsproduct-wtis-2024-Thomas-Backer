@@ -2,18 +2,12 @@
 
 session_start();
 
-require_once 'db_connectie.php'; // Zorgt ervoor dat er verbinding kan worden gemaakt met de database
+require_once 'db_connectie.php';
 require_once 'sanitize.php';
 
 $db = maakVerbinding();
 
-// Controleer of de gebruiker een account heeft en is ingelogd
-if (!isset($_SESSION['username'])) {
-    header('Location: inloggen.php');
-    exit();
-}
-
-// Haal de producten op uit de POST-aanvraag en sla ze op in de sessie
+// Haal de producten op uit de POST-aanvraag van winkelmandje.php en sla ze op in de sessie
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['producten'])) {
     $_SESSION['bestellingen'] = $_POST['producten'];
 }
@@ -27,19 +21,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling']
     $bestellingen = [];
 }
 
-// Haal het adres van de gebruiker op uit de tabel User
-$username = $_SESSION['username'];
-$query = $db->prepare("SELECT address FROM [dbo].[User] WHERE username = :username");
-$query->bindParam(':username', $username);
-$query->execute();
-$user = $query->fetch(PDO::FETCH_ASSOC);
+// Haal gegevens op alleen als gebruiker is ingelogd
+$address = '';
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : '';
 
-$address = $user ? $user['address'] : '';
+if (isset($_SESSION['username'])) {
+    $query = $db->prepare("SELECT address FROM [dbo].[User] WHERE username = :username");
+    $query->bindParam(':username', $username);
+    $query->execute();
+    $user = $query->fetch(PDO::FETCH_ASSOC);
+    $address = $user ? $user['address'] : '';
+}
 
-//Pak alle gegevens van de tabel Pizza_Order 
-$query = $db->prepare("SELECT status FROM [dbo].[Pizza_Order] WHERE order_id = 1");
-$query->execute();
-$bestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
+// Alleen database-bestellingen laden als ingelogd
+$databaseBestellingen = [];
+if (isset($_SESSION['username'])) {
+    $query = $db->prepare("SELECT status FROM [dbo].[Pizza_Order] WHERE order_id = 1");
+    $query->execute();
+    $databaseBestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
+}
 
 ?>
 
@@ -54,31 +54,37 @@ $bestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
 <body>
 <h1>Overzicht Bestellingen</h1>
 <ul>
+    <?php if (!empty($bestellingen)): ?>
+        <p>Besteld door: <?php echo htmlspecialchars($username ?: 'Gast'); ?></p>
+        <p>Status: <?php echo htmlspecialchars(isset($databaseBestellingen[0]['status']) ? $databaseBestellingen[0]['status'] : '-'); ?></p>
+        <p>Adres: 
+            <?php if (isset($_SESSION['username']) && !empty($address)): ?>
+                <?php echo htmlspecialchars($address); ?>
+            <?php else: ?>
+                <form method="post" action="overzichtBestellingen.php" style="display:inline;">
+                    <input type="text" name="address" placeholder="Voer uw adres in" required>
+                    <button type="submit">Opslaan</button>
+                </form>
+            <?php endif; ?>
+        </p>
+    <?php endif; ?>
     <?php foreach ($bestellingen as $index => $product) : ?>
-        
-        <p>Besteld door: <?php echo htmlspecialchars($_SESSION['username']); ?></p>
-        <p>Status: <?php echo htmlspecialchars($product['status']); ?></p>
-        <p>Adres: <?php echo htmlspecialchars($address); ?></p>
 
         <li>
             <?php
-            // Haal de productgegevens op uit de tabel Product
-            $productQuery = $db->prepare("SELECT name, price FROM [dbo].[Product]");
-            $productQuery->execute();
-            $productDetails = $productQuery->fetch(PDO::FETCH_ASSOC);
+            $productName = $product['name'] ?? 'Onbekend product';
+            $productPrice = $product['price'] ?? '0.00';
+            echo htmlspecialchars($productName) . ' - €' . htmlspecialchars($productPrice);
             ?>
-
-            <?php echo htmlspecialchars($productDetails['name']); ?> - €<?php echo htmlspecialchars($productDetails['price']); ?>
             <form method="post" action="overzichtBestellingen.php" style="display:inline;">
-                <?php if ($_SESSION['role'] === 'personeel') : ?>
-                    <input type="hidden" name="verwijder_bestelling" value="1">
-                    <button type="submit">Verwijder Bestelling</button>
-                <?php endif; ?>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'personeel') : ?>
+            <input type="hidden" name="verwijder_bestelling" value="1">
+            <button type="submit">Verwijder Bestelling</button>
+            <?php endif; ?>
             </form>
         </li>
     <?php endforeach; ?>
 </ul>
-
 
 <footer>
     <div>
