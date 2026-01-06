@@ -61,10 +61,7 @@ if (isset($_SESSION['username'])) {
             <?php if (isset($_SESSION['username']) && !empty($address)): ?>
                 <?php echo htmlspecialchars($address); ?>
             <?php else: ?>
-                <form method="post" action="overzichtBestellingen.php" style="display:inline;">
-                    <input type="text" name="address" placeholder="Voer uw adres in" required>
-                    <button type="submit">Opslaan</button>
-                </form>
+                <?php echo htmlspecialchars(isset($_POST['adres']) ? $_POST['adres'] : ''); ?>
             <?php endif; ?>
         </p>
     <?php endif; ?>

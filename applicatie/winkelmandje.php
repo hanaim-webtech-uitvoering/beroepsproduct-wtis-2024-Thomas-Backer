@@ -33,9 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
 // Haal de producten uit het winkelmandje op
 $producten = $_SESSION['winkelmandje'];
 
-
-
-//  onsubmit="this.action='account.php';"
 ?>
 
 <!DOCTYPE html>
@@ -75,11 +72,14 @@ $producten = $_SESSION['winkelmandje'];
             </li>
         <?php endforeach; ?>
     </ul>
+
     <form method="post" action="overzichtBestellingen.php">
         <?php foreach ($producten as $index => $product) : ?>
             <input type="hidden" name="producten[<?php echo $index; ?>][name]" value="<?php echo htmlspecialchars($product['name']); ?>">
             <input type="hidden" name="producten[<?php echo $index; ?>][price]" value="<?php echo htmlspecialchars($product['price']); ?>">
         <?php endforeach; ?>
+        <label for="adres">Bezorgadres:</label>
+        <input type="text" id="adres" name="adres" required>
         <button type="submit">Bestel</button>
     </form>
     
