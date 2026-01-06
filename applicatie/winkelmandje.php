@@ -18,8 +18,7 @@ $query->execute();
 $producten = $query->fetchAll(PDO::FETCH_ASSOC);
 
 // Verwerk de POST-aanvraag om een product toe te voegen aan het winkelmandje
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
-    $product_id = sanitize($_POST['product_id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $product_name = sanitize($_POST['product_name']);
     $product_price = sanitize($_POST['product_price']);
 
@@ -30,6 +29,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
     ];
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producten'])) {
+    // Genereer order ID
+    $order_id = uniqid('ORDER_', true);
+    $product_name = implode(', ', array_column($_POST['producten'], 'name'));
+    $quantity = count($_POST['producten']);
+    
+    // Voeg order toe aan database
+    $insertOrder = $db->prepare("INSERT INTO [dbo].[Pizza_Order_Product] (order_id, product_name, quantity) VALUES (?, ?, ?)");
+    $insertOrder->execute([$order_id, $product_name, $quantity]);
+
+    // Voeg producten toe aan database
+    $insertProduct = $db->prepare("INSERT INTO [dbo].[Pizza_Order_Product] (order_id, product_name, quantity) VALUES (?, ?, ?)");
+    
+    foreach ($_POST['producten'] as $product) {
+        $insertProduct->execute([$order_id, $product['name'], 1]); // Aantal per product is 1
+    }
+
+    // Leeg winkelmandje
+    $_SESSION['winkelmandje'] = [];
+}
 // Haal de producten uit het winkelmandje op
 $producten = $_SESSION['winkelmandje'];
 
@@ -78,8 +97,10 @@ $producten = $_SESSION['winkelmandje'];
             <input type="hidden" name="producten[<?php echo $index; ?>][name]" value="<?php echo htmlspecialchars($product['name']); ?>">
             <input type="hidden" name="producten[<?php echo $index; ?>][price]" value="<?php echo htmlspecialchars($product['price']); ?>">
         <?php endforeach; ?>
-        <label for="adres">Bezorgadres:</label>
-        <input type="text" id="adres" name="adres" required>
+         <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
+            <label for="adres">Bezorgadres:</label>
+            <input type="text" id="adres" name="adres" required>
+        <?php endif; ?>
         <button type="submit">Bestel</button>
     </form>
     

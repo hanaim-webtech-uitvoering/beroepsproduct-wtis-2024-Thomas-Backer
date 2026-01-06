@@ -74,7 +74,7 @@ if (isset($_SESSION['username'])) {
             echo htmlspecialchars($productName) . ' - €' . htmlspecialchars($productPrice);
             ?>
             <form method="post" action="overzichtBestellingen.php" style="display:inline;">
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'personeel') : ?>
+            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'personnel') : ?>
             <input type="hidden" name="verwijder_bestelling" value="1">
             <button type="submit">Verwijder Bestelling</button>
             <?php endif; ?>

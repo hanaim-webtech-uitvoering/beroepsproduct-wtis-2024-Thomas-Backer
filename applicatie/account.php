@@ -61,19 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling']
     <li>Rol: <?php echo htmlspecialchars($_SESSION['role']); ?></li>
 </ul>
 
-<h2>Mijn Bestellingen:</h2>
-<ul>
-    <?php foreach ($bestellingen as $index => $product) : ?>
-        <li>
-            <?php echo htmlspecialchars($product['name']); ?> - €<?php echo htmlspecialchars($product['price']); ?>
-            <form method="post" action="account.php" style="display:inline;">
-                <input type="hidden" name="verwijder_bestelling" value="1">
-                <button type="submit">Verwijder Bestelling</button>
-            </form>
-        </li>
-    <?php endforeach; ?>
-</ul>
-
 
 <footer>
     <div>
