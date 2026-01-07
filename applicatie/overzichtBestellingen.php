@@ -79,7 +79,7 @@ if (isset($_SESSION['username'])) {
     <div>
         <a href="HomeMenu.php">Home</a>
         <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'personnel' || $_SESSION['role'] === 'Personnel')) : ?>
-        <a href="beheerBestellingen.php">Beheer Bestellingen</a>
+        <a href="beheerBestellingen.php">Beheer bestellingen</a>
         <?php endif; ?>
     </div>
 </footer>

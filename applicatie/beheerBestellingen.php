@@ -43,27 +43,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling']
 <?php
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Query uitvoeren
-$query = $db->prepare("SELECT * FROM [dbo].[Pizza_Order]");
+// Query uitvoeren met INNER JOIN
+$query = $db->prepare("SELECT po.*, pop.product_name FROM [dbo].[Pizza_Order] po INNER JOIN [dbo].[Pizza_Order_Product] pop ON po.order_id = pop.order_id ORDER BY po.order_id");
 $query->execute();
 
 // Resultaten ophalen
 $databaseBestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
+$bestellingenGrouped = [];
 
 foreach ($databaseBestellingen as $bestelling) {
+    $bestellingenGrouped[$bestelling['order_id']][] = $bestelling;
+}
+
+foreach ($bestellingenGrouped as $orderId => $bestellingen) {
     echo "<form method='POST'>";
     echo "<p>";
-    echo "Order ID: " . $bestelling['order_id'] . "<br>";
-    echo "Address: " . $bestelling['address'] . "<br>";
+    echo "Order ID: " . $orderId . "<br>";
+    echo "Address: " . $bestellingen[0]['address'] . "<br>";
+    
+    echo "Producten:<br>";
+    foreach ($bestellingen as $bestelling) {
+        echo "- " . $bestelling['product_name'] . "<br>";
+    }
 
     echo "Status: ";
     echo "<select name='status'>";
-    echo "<option value='1' " . ($bestelling['status'] == 1 ? 'selected' : '') . ">Afwachten</option>";
-    echo "<option value='2' " . ($bestelling['status'] == 2 ? 'selected' : '') . ">Voorbereiden</option>";
-    echo "<option value='3' " . ($bestelling['status'] == 3 ? 'selected' : '') . ">Verzonden</option>";
-    echo "<option value='4' " . ($bestelling['status'] == 4 ? 'selected' : '') . ">Voltooid</option>";
+    echo "<option value='1' " . ($bestellingen[0]['status'] == 1 ? 'selected' : '') . ">Afwachten</option>";
+    echo "<option value='2' " . ($bestellingen[0]['status'] == 2 ? 'selected' : '') . ">Voorbereiden</option>";
+    echo "<option value='3' " . ($bestellingen[0]['status'] == 3 ? 'selected' : '') . ">Verzonden</option>";
+    echo "<option value='4' " . ($bestellingen[0]['status'] == 4 ? 'selected' : '') . ">Voltooid</option>";
 
-    echo "<input type='hidden' name='order_id' value='" . $bestelling['order_id'] . "'>";
+    echo "<input type='hidden' name='order_id' value='" . $orderId . "'>";
     echo "<button type='submit' name='update_status'>Update Status</button>";
     echo "</p>";
     echo "</form>";
@@ -75,7 +85,7 @@ foreach ($databaseBestellingen as $bestelling) {
 <footer>
     <div>
         <a href="HomeMenu.php">Home</a>
-        <a href="overzichtBestellingen.php">Overzicht Bestellingen</a>
+        <a href="overzichtBestellingen.php">Overzicht bestellingen</a>
     </div>
 </footer>
 </body>

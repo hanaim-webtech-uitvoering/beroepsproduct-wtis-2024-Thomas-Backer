@@ -73,7 +73,7 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
             <li>
             <?php echo htmlspecialchars($product['name']); ?> - €<?php echo htmlspecialchars($product['price']); ?>
             <form action="winkelmandje.php" method="post" style="display:inline;">
-            <input type="hidden" name="product_id" value="<?php echo htmlspecialchars($product['type_id']); ?>">
+            <input type="hidden" name="type_id" value="<?php echo htmlspecialchars($product['type_id']); ?>">
             <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['name']); ?>">
             <input type="hidden" name="product_price" value="<?php echo htmlspecialchars($product['price']); ?>">
             <button type="submit">Toevoegen aan winkelmandje</button>
