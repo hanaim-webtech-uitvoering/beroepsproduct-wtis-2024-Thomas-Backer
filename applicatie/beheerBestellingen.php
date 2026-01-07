@@ -1,0 +1,83 @@
+<?php
+
+session_start();
+
+require_once 'db_connectie.php';
+require_once 'sanitize.php';
+
+$db = maakVerbinding();
+
+// Status updaten
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_status'])) {
+    $orderId = $_POST['order_id'];
+    $newStatus = (int)$_POST['status']; // forceer integer
+
+    $update = $db->prepare("UPDATE [dbo].[Pizza_Order] SET status = :status WHERE order_id = :order_id");
+    $update->bindParam(':status', $newStatus, PDO::PARAM_INT);
+    $update->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+    $update->execute();
+}
+
+
+
+// Verwijder de bestelling als de verwijderknop is ingedrukt
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verwijder_bestelling'])) {
+    unset($_SESSION['bestellingen']);
+    $bestellingen = [];
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+    <title>Bestellingen</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+<h1>Beheer Bestellingen</h1>
+
+<body>
+<?php
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// Query uitvoeren
+$query = $db->prepare("SELECT * FROM [dbo].[Pizza_Order]");
+$query->execute();
+
+// Resultaten ophalen
+$databaseBestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($databaseBestellingen as $bestelling) {
+    echo "<form method='POST'>";
+    echo "<p>";
+    echo "Order ID: " . $bestelling['order_id'] . "<br>";
+    echo "Address: " . $bestelling['address'] . "<br>";
+
+    echo "Status: ";
+    echo "<select name='status'>";
+    echo "<option value='1' " . ($bestelling['status'] == 1 ? 'selected' : '') . ">Afwachten</option>";
+    echo "<option value='2' " . ($bestelling['status'] == 2 ? 'selected' : '') . ">Voorbereiden</option>";
+    echo "<option value='3' " . ($bestelling['status'] == 3 ? 'selected' : '') . ">Verzonden</option>";
+    echo "<option value='4' " . ($bestelling['status'] == 4 ? 'selected' : '') . ">Voltooid</option>";
+
+    echo "<input type='hidden' name='order_id' value='" . $bestelling['order_id'] . "'>";
+    echo "<button type='submit' name='update_status'>Update Status</button>";
+    echo "</p>";
+    echo "</form>";
+}
+
+?>
+</body>
+
+<footer>
+    <div>
+        <a href="HomeMenu.php">Home</a>
+        <a href="overzichtBestellingen.php">Overzicht Bestellingen</a>
+    </div>
+</footer>
+</body>
+</html>
+

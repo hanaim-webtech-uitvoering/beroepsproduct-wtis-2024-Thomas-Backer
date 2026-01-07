@@ -49,6 +49,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['producten'])) {
     // Leeg winkelmandje
     $_SESSION['winkelmandje'] = [];
 }
+
+
 // Haal de producten uit het winkelmandje op
 $producten = $_SESSION['winkelmandje'];
 
@@ -98,7 +100,7 @@ $producten = $_SESSION['winkelmandje'];
             <input type="hidden" name="producten[<?php echo $index; ?>][price]" value="<?php echo htmlspecialchars($product['price']); ?>">
         <?php endforeach; ?>
          <?php if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true): ?>
-            <label for="adres">Bezorgadres:</label>
+            <label for="adres">Adres:</label>
             <input type="text" id="adres" name="adres" required>
         <?php endif; ?>
         <button type="submit">Bestel</button>

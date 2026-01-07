@@ -52,17 +52,17 @@ if (isset($_SESSION['username'])) {
 <html lang="en">
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
-  <title>Login</title>
+  <title>Inloggen</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
-    <h2>Login</h2>
+    <h2>Inloggen</h2>
     <div style="width: 50vw; margin:10px">
       <form method="post" action="">
-        <label for="username">Username</label>
+        <label for="username">Gebruikersnaam</label>
         <input type="text" id="username" name="username" placeholder="vul hier je gebruikersnaam in" required>
-        <label for="password">Password</label>
+        <label for="password">Wachtwoord</label>
         <input type="password" id="password" name="password" placeholder="vul hier je wachtwoord in" required>
         <input type="submit" name="user_login" id="user_login" value="Inloggen">
       </form>

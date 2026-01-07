@@ -139,22 +139,22 @@ if (isset($_SESSION['username'])) {
     <h2>Registreren</h2>
     <div style="width: 50vw; margin:10px">
     <form method="post" action="">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Password:</label>
+        <label for="username">Gebruikersnaam:</label>
+        <input type="text" id="username" name="username" ><br><br>
+        <label for="password">Wachtwoord:</label>
         <input type="password" id="password" name="password" required><br><br>
-        <label for="repeatPassword">Repeat Password:</label>
+        <label for="repeatPassword">Herhaal wachtwoord:</label>
         <input type="password" id="repeatPassword" name="repeatPassword" required><br><br>
-        <label for="first_name">First name:</label>
+        <label for="first_name">Voornaam:</label>
         <input type="text" id="first_name" name="first_name" required><br><br>
-        <label for="last_name">Last name:</label>
+        <label for="last_name">Achternaam:</label>
         <input type="text" id="last_name" name="last_name" required><br><br>
-        <label for="address">Address:</label>
+        <label for="address">Adres:</label>
         <input type="text" id="address" name="address"><br><br>
-        <label for="role">Role:</label>
+        <label for="role">Rol:</label>
         <select id="role" name="role" required>
-        <option value="personnel">Personnel</option>
-        <option value="client">Client</option>
+        <option value="Personnel">Personeel</option>
+        <option value="Client">Klant</option>
         </select><br><br>
         <input type="submit" name="registreren" value="Registreren">
     </form>

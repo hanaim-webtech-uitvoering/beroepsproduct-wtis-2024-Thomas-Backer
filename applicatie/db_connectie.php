@@ -1,10 +1,9 @@
 <?php
 
-// defined in 'variables.env'
+// Database verbindingsgegevens
 $db_host = 'database_server'; // de database server 
 $db_name = 'pizzeria';        // naam van database
 
-// defined in sql-script 'movies.sql'
 $db_user    = 'sa';                 // db user
 $db_password = 'abc123!@#';  // wachtwoord db user
 

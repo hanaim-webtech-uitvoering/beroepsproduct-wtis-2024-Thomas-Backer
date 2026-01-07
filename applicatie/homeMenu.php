@@ -13,6 +13,8 @@ $query = $db->prepare("SELECT name, price, type_id FROM [dbo].[Product]");
 $query->execute();
 $producten = $query->fetchAll(PDO::FETCH_ASSOC);
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +41,13 @@ $producten = $query->fetchAll(PDO::FETCH_ASSOC);
                 <a href="winkelmandje.php">Winkelmandje</a>
             </li>
             <li>
-                <a href="overzichtBestellingen.php">Bestellingen</a>
+                <a href="overzichtBestellingen.php">Mijn bestellingen</a>
             </li>
+                <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'Personnel' || $_SESSION['role'] === 'personnel')) : ?>
+                <li>
+                <a href="beheerBestellingen.php">Beheer Bestellingen</a>
+                </li>
+                <?php endif; ?>
         </ul>
     </div>
 

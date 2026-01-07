@@ -33,14 +33,6 @@ if (isset($_SESSION['username'])) {
     $address = $user ? $user['address'] : '';
 }
 
-// Alleen database-bestellingen laden als ingelogd
-$databaseBestellingen = [];
-if (isset($_SESSION['username'])) {
-    $query = $db->prepare("SELECT status FROM [dbo].[Pizza_Order] WHERE order_id = 1");
-    $query->execute();
-    $databaseBestellingen = $query->fetchAll(PDO::FETCH_ASSOC);
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +48,7 @@ if (isset($_SESSION['username'])) {
 <ul>
     <?php if (!empty($bestellingen)): ?>
         <p>Besteld door: <?php echo htmlspecialchars($username ?: 'Gast'); ?></p>
-        <p>Status: <?php echo htmlspecialchars(isset($databaseBestellingen[0]['status']) ? $databaseBestellingen[0]['status'] : '-'); ?></p>
+        <p>Status: <?php echo htmlspecialchars(isset($databaseBestellingen[0]['status']) ? $databaseBestellingen[0]['status'] : '1'); ?></p>
         <p>Adres: 
             <?php if (isset($_SESSION['username']) && !empty($address)): ?>
                 <?php echo htmlspecialchars($address); ?>
@@ -86,6 +78,9 @@ if (isset($_SESSION['username'])) {
 <footer>
     <div>
         <a href="HomeMenu.php">Home</a>
+        <?php if (isset($_SESSION['role']) && ($_SESSION['role'] === 'personnel' || $_SESSION['role'] === 'Personnel')) : ?>
+        <a href="beheerBestellingen.php">Beheer Bestellingen</a>
+        <?php endif; ?>
     </div>
 </footer>
 </body>
