@@ -18,28 +18,28 @@ function sanitizeInput($data) {
 function validateInput($data) {
     $errors = [];
     if (strlen($data['username']) > 200) {
-        $errors[] = 'Username mag maximaal 200 karakters lang zijn.';
+        $errors[] = 'Gebruikersnaam mag maximaal 200 karakters lang zijn.';
     }
     if (strlen($data['password']) < 8) {
-        $errors[] = 'Password moet minstens 8 karakters lang zijn.';
+        $errors[] = 'Wachtwoord moet minstens 8 karakters lang zijn.';
     }
     if ($data['password'] !== $data['repeatPassword']) {
-        $errors[] = 'Passwords komen niet overeen.';
+        $errors[] = 'Wachtwoorden komen niet overeen.';
     }
     if (empty($data['first_name'])) {
-        $errors[] = 'First name is verplicht.';
+        $errors[] = 'Voornaam is verplicht.';
     }
     if (strlen($data['first_name']) > 30) {
-        $errors[] = 'First name mag maximaal 30 karakters lang zijn.';
+        $errors[] = 'Voornaam mag maximaal 30 karakters lang zijn.';
     }
     if (empty($data['last_name'])) {
-        $errors[] = 'Last name is verplicht.';
+        $errors[] = 'Achternaam is verplicht.';
     }
     if (strlen($data['last_name']) > 30) {
-        $errors[] = 'Last name mag maximaal 30 karakters lang zijn.';
+        $errors[] = 'Achternaam mag maximaal 30 karakters lang zijn.';
     }
     if (strlen($data['username']) < 4) {
-        $errors[] = 'Username moet minstens 4 karakters lang zijn.';
+        $errors[] = 'Gebruikersnaam moet minstens 4 karakters lang zijn.';
     }
     return $errors;
 }
